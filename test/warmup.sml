@@ -1,4 +1,4 @@
-val warmupFactor = CommandLineArgs.parseInt "warmup" 25
+val warmupFactor = CommandLineArgs.parseInt "warmup" 27
 
 fun oneWarmup k i =
   let
