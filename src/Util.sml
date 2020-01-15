@@ -1,6 +1,15 @@
 structure Util =
 struct
 
+  fun loop (lo, hi) b f =
+    if lo >= hi then b else loop (lo+1, hi) (f (b, lo)) f
+
+  fun forBackwards (i, j) f =
+    if i >= j then () else (f (j-1); forBackwards (i, j-1) f)
+
+  fun for (i, j) f =
+    if i >= j then () else (f i; for (i+1, j) f)
+
   fun powOf2 i = if (i<1) then 1 else 2*powOf2(i-1)
   fun log2 n = if (n < 1) then 0 else 1 + log2(n div 2)
 

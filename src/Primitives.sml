@@ -1,6 +1,7 @@
 structure Primitives =
 struct
-  val par = ForkJoin.fork
+  val par = ForkJoin.par
+  val parfor = ForkJoin.parfor
 
   fun par4 (a, b, c, d) =
     let

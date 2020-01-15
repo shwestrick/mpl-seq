@@ -59,8 +59,8 @@ struct
   val update = A.update
 
   val par = Primitives.par
-  val for = ParUtil.for
-  val parallelFor = ParUtil.parfor
+  val for = Util.for
+  val parallelFor = Primitives.parfor
 
   fun for_l (lo, len) f = for (lo, lo + len) f
 

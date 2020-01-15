@@ -15,9 +15,9 @@ struct
   structure Seq = ArraySequence
   type 'a seq = 'a Seq.t
 
-  val for = ParUtil.for
-  val loop = ParUtil.loop
-  val forBackwards = ParUtil.forBackwards
+  val for = Util.for
+  val loop = Util.loop
+  val forBackwards = Util.forBackwards
 
   fun seqSortInternal In Out Keys Counts genOffsets =
     let
@@ -98,7 +98,7 @@ struct
         val m = numBlocks * numBucketsPad
         val B = AS.full(Primitives.alloc(AS.length In))
         val Counts = AS.full(Primitives.alloc(m))
-        val _ = ParUtil.parfor 1 (0, numBlocks) (fn i =>
+        val _ = Primitives.parfor 1 (0, numBlocks) (fn i =>
           let
             val start = Int.min(i * blockSize, n)
             val len = Int.min((i+1)* blockSize, n) - start

@@ -18,7 +18,7 @@ fun warmup () =
     val P = Primitives.numberOfProcessors
     val r = ref #" "
   in
-    ParUtil.parfor 1 (0, 2*P) (fn i => r := oneWarmup warmupFactor i);
+    Primitives.parfor 1 (0, 2*P) (fn i => r := oneWarmup warmupFactor i);
     !r
   end
 

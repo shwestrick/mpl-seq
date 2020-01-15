@@ -45,7 +45,7 @@ struct
   fun upd a i x = A.update (a, i, x)
   fun nth a i   = A.sub (a, i)
 
-  val parfor = ParUtil.parfor
+  val parfor = Primitives.parfor
   val par = Primitives.par
 
   fun tabulate grain (lo, hi) f =
@@ -114,7 +114,8 @@ struct
             fun bump ((j,b),x) = (upd result j b; (j+1, g (b, x)))
             val start = lo + i*k
           in
-            iterate bump (i*k, nth partials i) (start, Int.min (start+k, hi)) f
+            iterate bump (i*k, nth partials i) (start, Int.min (start+k, hi)) f;
+            ()
           end);
         upd result n (nth partials m);
         result
