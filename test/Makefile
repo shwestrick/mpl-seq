@@ -1,6 +1,6 @@
 DEFAULT_FLAGS?=-default-type int64 -default-type word64
 
-all: main.mpl-cd
+all: main.mpl
 
 phony:
 
