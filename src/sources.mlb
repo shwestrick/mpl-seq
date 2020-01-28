@@ -7,4 +7,5 @@ Primitives.sml
 CommandLineArgs.sml
 Util.sml
 SeqBasis.sml
+Inject.sml
 alternate/AlternateScan.sml

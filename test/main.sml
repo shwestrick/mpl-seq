@@ -105,11 +105,83 @@ fun testFilter () =
     test {task=task, check=check}
   end
 
+  fun hash64 u =
+    let
+      open Word64
+      infix 2 >> << xorb andb
+      val v = u * 0w3935559000370003845 + 0w2691343689449507681
+      val v = v xorb (v << 0w21)
+      val v = v xorb (v << 0w37)
+      val v = v xorb (v >> 0w4)
+      val v = v * 0w4768777513237032717
+      val v = v xorb (v << 0w20)
+      val v = v xorb (v >> 0w41)
+      val v = v xorb (v << 0w5)
+    in
+      v
+    end
+
+fun testInjectSparse () =
+  let
+    fun gen i =
+      Word64.toInt (Word64.mod (hash64 (Word64.fromInt i), Word64.fromInt n))
+    val s = S.tabulate 10000 (0, n) (fn i => ~1)
+    val u = S.tabulate 10000 (0, n) (fn i => (gen i, i))
+    fun task () = Inject.inject s u
+    fun check result = raise Fail "checker not implemented"
+  in
+    test {task=task, check=check}
+  end
+
+fun testNinjectSparse () =
+  let
+    fun gen i =
+      Word64.toInt (Word64.mod (hash64 (Word64.fromInt i), Word64.fromInt n))
+    val s = S.tabulate 10000 (0, n) (fn i => ~1)
+    val u = S.tabulate 10000 (0, n) (fn i => (gen i, i))
+    fun task () = Inject.ninject s u
+    fun check result = raise Fail "checker not implemented"
+  in
+    test {task=task, check=check}
+  end
+
+fun testInjectDense () =
+  let
+    val sqrtn = Real.floor (Math.sqrt (Real.fromInt n))
+    fun gen i =
+      sqrtn *
+      Word64.toInt (Word64.mod (hash64 (Word64.fromInt i), Word64.fromInt sqrtn))
+    val s = S.tabulate 10000 (0, n) (fn i => ~1)
+    val u = S.tabulate 10000 (0, n) (fn i => (gen i, i))
+    fun task () = Inject.inject s u
+    fun check result = raise Fail "checker not implemented"
+  in
+    test {task=task, check=check}
+  end
+
+fun testNinjectDense () =
+  let
+    val sqrtn = Real.floor (Math.sqrt (Real.fromInt n))
+    fun gen i =
+      sqrtn *
+      Word64.toInt (Word64.mod (hash64 (Word64.fromInt i), Word64.fromInt sqrtn))
+    val s = S.tabulate 10000 (0, n) (fn i => ~1)
+    val u = S.tabulate 10000 (0, n) (fn i => (gen i, i))
+    fun task () = Inject.ninject s u
+    fun check result = raise Fail "checker not implemented"
+  in
+    test {task=task, check=check}
+  end
+
 val tests =
   [ ("tabulate", testTabulate)
   , ("reduce", testReduce)
   , ("scan", testScan)
   , ("filter", testFilter)
+  , ("inject-sparse", testInjectSparse)
+  , ("ninject-sparse", testNinjectSparse)
+  , ("inject-dense", testInjectDense)
+  , ("ninject-dense", testNinjectDense)
   ]
 
 val testName = CLA.parseString "test" ""
